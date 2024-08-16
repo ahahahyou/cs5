@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小小测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('cb.jpg'); /* 请替换为正确的图片路径 */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
+            position: relative;
+        }
+        .transparent-overlay {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            width: 90%;
+            height: 75%;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border-radius: 15px;
+            color: #000;
+        }
+        .question {
+            font-size: 6vh;
+            text-align: center;
+            font-family: '楷体', 'SimKai', 'Microsoft YaHei', sans-serif;
+            margin: 3px 0; /* 调整顶部和底部边距 */
+        }
+        .options {
+            margin-top: 0;
+        }
+        .option-group {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        button {
+            margin: 0 80px;
+            padding: 10px 100px;
+            font-size: 4vh;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent; /* 将背景颜色设置为透明 */
+            color: black;
+            cursor: pointer;
+            transition: none; /* 移除过渡效果 */
+            font-family: '楷体', 'SimKai', 'Microsoft YaHei', sans-serif;
+        }
+        button:hover {
+            background-color: lightgray; /* 鼠标悬停时背景颜色 */
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 4vh;
+            color: green;
+            height: 40px; /* 固定高度，保持其他元素不动 */
+        }
+        .arrow-button {
+            position: absolute;
+            top: 20px;
+            width: 50px; /* 调整箭头按钮的宽度 */
+            height: 50px; /* 调整箭头按钮的高度 */
+            background-color: transparent; /* 背景透明 */
+            border: none;
+            cursor: pointer;
+            font-size: 80px; /* 放大箭头 */
+            color: white; /* 箭头颜色 */
+            z-index: 2; /* 确保箭头在最上层 */
+            transition: background-color 0.3s; /* 添加过渡效果 */
+        }
+        .arrow-button:hover {
+            background-color: transparent; /* 悬停时背景透明 */
+        }
+        .left-arrow {
+            left: 10px; /* 左侧箭头位置 */
+        }
+        .right-arrow {
+            right: 10px; /* 右侧箭头位置 */
+        }
+    </style>
+</head>
+<body>
+    <button class="arrow-button left-arrow" onclick="window.location.href='https://ahahahyou.github.io/cs4/'">&#8592;</button>
+    <button class="arrow-button right-arrow" onclick="window.location.href='https://gaoyv8888.github.io/EX1/'">&#8594;</button>
+    
+    <div class="transparent-overlay">
+        <div class="question">
+            <p>问题9:整首词的主题是什么？</p>
+            <div class="options">
+                <div class="option-group">
+                    <button onclick="checkAnswer('A', 1)">选项A. 战争的悲惨</button>
+                    <button onclick="checkAnswer('B', 1)">选项B. 田园的宁静与和谐</button>
+                </div>
+                <div class="option-group" style="margin-top: 10px;">
+                    <button onclick="checkAnswer('C', 1)">选项C. 爱情的甜蜜</button>
+                    <button onclick="checkAnswer('D', 1)">选项D. 追求功名</button>
+                </div>
+            </div>
+            <div class="feedback" id="feedback1"></div>
+        </div>
+        <div class="question">
+            <p>问题10:整首词的风格可以归类为哪种？</p>
+            <div class="options">
+                <div class="option-group">
+                    <button onclick="checkAnswer('A', 2)">选项A. 叙事诗</button>
+                    <button onclick="checkAnswer('B', 2)">选项B. 田园诗</button>
+                </div>
+                <div class="option-group" style="margin-top: 10px;">
+                    <button onclick="checkAnswer('C', 2)">选项C. 战争诗</button>
+                    <button onclick="checkAnswer('D', 2)">选项D. 爱情诗</button>
+                </div>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(option, question) {
+            let correctAnswers = {
+                1: 'B', // 问题1的正确答案
+                2: 'B'  // 问题2的正确答案
+            };
+
+            let feedbackElement = document.getElementById(`feedback${question}`);
+            let buttons = document.querySelectorAll(`.question:nth-of-type(${question}) button`);
+
+            buttons.forEach(button => {
+                button.classList.remove('correct', 'incorrect'); // 清除之前的状态
+            });
+
+            if (option === correctAnswers[question]) {
+                feedbackElement.textContent = "答案正确！";
+                buttons.forEach(button => {
+                    if (button.textContent.includes(option)) {
+                        button.classList.add('correct');
+                    }
+                });
+                buttons.forEach(button => {
+                    if (button.textContent.includes(correctAnswers[question])) {
+                        button.classList.add('correct');
+                        button.style.color = 'red'; // 将正确答案的文本颜色设置为红色
+                    }
+                });
+            } else {
+                feedbackElement.textContent = "答案错误！";
+                buttons.forEach(button => {
+                    if (button.textContent.includes(option)) {
+                        button.classList.add('incorrect');
+                    }
+                });
+            }
+
+            // 设置三秒后隐藏反馈
+            setTimeout(() => {
+                feedbackElement.textContent = ""; // 清空反馈
+                buttons.forEach(button => {
+                    button.classList.remove('correct', 'incorrect'); // 清除按钮状态
+                    button.style.color = 'black'; // 恢复按钮文本颜色
+                });
+            }, 5000); // 5000毫秒后执行
+        }
+    </script>
+</body>
+</html>
